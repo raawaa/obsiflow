@@ -212,6 +212,8 @@ export type TranslationKey =
   | 'settings.enableBangBash.name'
   | 'settings.enableBangBash.desc'
   | 'settings.enableBangBash.validation.noNode'
+  | 'settings.enableIFlow.name'
+  | 'settings.enableIFlow.desc'
   | 'settings.maxTabs.name'
   | 'settings.maxTabs.desc'
   | 'settings.maxTabs.warning'

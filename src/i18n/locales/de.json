@@ -248,6 +248,10 @@
         "noNode": "Node.js not found on PATH. Install Node.js or check your PATH configuration."
       }
     },
+    "enableIFlow": {
+      "name": "Enable iFlow CLI (experimental)",
+      "desc": "Use iFlow CLI SDK instead of Claude Agent SDK as backend. Requires iFlow CLI to be installed. Requires view reopen."
+    },
     "maxTabs": {
       "name": "Maximale Chat-Tabs",
       "desc": "Maximale Anzahl gleichzeitiger Chat-Tabs (3-10). Jeder Tab verwendet eine separate Claude-Sitzung.",

@@ -250,6 +250,7 @@ export interface ClaudianSettings {
   show1MModel: boolean;  // Show Sonnet (1M) in model selector (requires Max subscription)
   enableChrome: boolean;  // Enable Chrome extension support (passes --chrome flag)
   enableBangBash: boolean;  // Enable ! bash mode for direct command execution
+  enableIFlow: boolean;  // Enable iFlow CLI SDK as backend (experimental)
 
   // Content settings
   excludedTags: string[];
@@ -316,6 +317,7 @@ export const DEFAULT_SETTINGS: ClaudianSettings = {
   show1MModel: false,  // Hidden by default
   enableChrome: false,  // Disabled by default
   enableBangBash: false,  // Disabled by default
+  enableIFlow: true,  // Enabled by default (iFlow is the primary backend)
 
   // Content settings
   excludedTags: [],

@@ -71,6 +71,7 @@ import {
   type QueryOptionsContext,
 } from './QueryOptionsBuilder';
 import { SessionManager } from './SessionManager';
+import { IFlowService } from '../iflow/IFlowService';
 import {
   type ClosePersistentQueryOptions,
   createResponseHandler,
@@ -139,6 +140,7 @@ export class ClaudianService {
   // Modular components
   private sessionManager = new SessionManager();
   private mcpManager: McpServerManager;
+  private iFlowService: IFlowService | null = null;
 
   private persistentQuery: Query | null = null;
   private messageChannel: MessageChannel | null = null;
@@ -728,6 +730,12 @@ export class ClaudianService {
       return;
     }
 
+    // Check if iFlow is enabled
+    if (this.plugin.settings.enableIFlow) {
+      yield* this.queryViaIFlow(prompt, vaultPath, queryOptions);
+      return;
+    }
+
     const resolvedClaudePath = this.plugin.getResolvedClaudeCliPath();
     if (!resolvedClaudePath) {
       yield { type: 'error', content: 'Claude CLI not found. Please install Claude Code CLI.' };
@@ -1246,6 +1254,49 @@ export class ClaudianService {
     }
 
     return messageGenerator();
+  }
+
+  /**
+   * Query via iFlow CLI SDK (experimental)
+   */
+  private async *queryViaIFlow(
+    prompt: string,
+    vaultPath: string,
+    queryOptions?: QueryOptions
+  ): AsyncGenerator<StreamChunk> {
+    // Initialize iFlow service if not already done
+    if (!this.iFlowService) {
+      this.iFlowService = new IFlowService(this.plugin, vaultPath);
+    }
+
+    // Connect to iFlow if not connected
+    if (!this.iFlowService.isConnected()) {
+      try {
+        await this.iFlowService.connect({
+          sessionId: this.sessionManager.getSessionId() ?? undefined,
+          allowedTools: queryOptions?.allowedTools,
+        });
+      } catch (error) {
+        yield {
+          type: 'error',
+          content: `Failed to connect to iFlow: ${error instanceof Error ? error.message : String(error)}`,
+        };
+        return;
+      }
+    }
+
+    // Execute query via iFlow
+    try {
+      yield* this.iFlowService.queryGenerator(prompt, {
+        sessionId: this.sessionManager.getSessionId() ?? undefined,
+        allowedTools: queryOptions?.allowedTools,
+      });
+    } catch (error) {
+      yield {
+        type: 'error',
+        content: `iFlow query failed: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
   }
 
   private async *queryViaSDK(

@@ -571,6 +571,18 @@ export class ClaudianSettingTab extends PluginSettingTab {
     bangBashValidationEl.style.marginBottom = '0.5em';
     bangBashValidationEl.style.display = 'none';
 
+    new Setting(containerEl)
+      .setName(t('settings.enableIFlow.name'))
+      .setDesc(t('settings.enableIFlow.desc'))
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.enableIFlow ?? false)
+          .onChange(async (value) => {
+            this.plugin.settings.enableIFlow = value;
+            await this.plugin.saveSettings();
+          })
+      );
+
     const maxTabsSetting = new Setting(containerEl)
       .setName(t('settings.maxTabs.name'))
       .setDesc(t('settings.maxTabs.desc'));

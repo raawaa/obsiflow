@@ -248,6 +248,10 @@
         "noNode": "未在 PATH 中找到 Node.js。请安装 Node.js 或检查 PATH 配置。"
       }
     },
+    "enableIFlow": {
+      "name": "启用 iFlow CLI (实验性)",
+      "desc": "使用 iFlow CLI SDK 替代 Claude Agent SDK 作为后端。需要安装 iFlow CLI。需要重新打开视图。"
+    },
     "maxTabs": {
       "name": "最大聊天标签数",
       "desc": "同时开启的最大聊天标签数（3-10）。每个标签使用独立的 Claude 会话。",

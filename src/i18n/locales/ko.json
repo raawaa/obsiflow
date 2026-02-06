@@ -248,6 +248,10 @@
         "noNode": "Node.js not found on PATH. Install Node.js or check your PATH configuration."
       }
     },
+    "enableIFlow": {
+      "name": "Enable iFlow CLI (experimental)",
+      "desc": "Use iFlow CLI SDK instead of Claude Agent SDK as backend. Requires iFlow CLI to be installed. Requires view reopen."
+    },
     "maxTabs": {
       "name": "최대 채팅 탭 수",
       "desc": "동시에 열 수 있는 최대 채팅 탭 수(3-10). 각 탭은 별도의 Claude 세션을 사용합니다.",
